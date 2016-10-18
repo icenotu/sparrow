@@ -1,0 +1,7 @@
+{"aaData":[{"supAddress":"广州花都","supId":1,"supLinkman":"小张","supName":"苹果供应商","supPhone":"12388888887"
+,"supRemark":"普通供应商"},{"supAddress":"广州增城","supId":2,"supLinkman":"小王","supName":"三星供应商","supPhone":"12388888888"
+,"supRemark":"普通供应商"},{"supAddress":"广东深圳","supId":3,"supLinkman":"小王","supName":"华为供应商","supPhone":"12388888889"
+,"supRemark":"一级供应商"},{"supAddress":"深圳","supId":4,"supLinkman":"雷军","supName":"小米","supPhone":"18073489449"
+,"supRemark":"二级供应商"},{"supAddress":"钢管厂","supId":5,"supLinkman":"杨鹏","supName":"魅族","supPhone":"18073489449"
+,"supRemark":"一级供应商"},{"supAddress":"钢管厂","supId":7,"supLinkman":"小三","supName":"oppo","supPhone":"15886450810"
+,"supRemark":"一级供应商"}],"draw":1,"iTotalDisplayRecords":6,"iTotalRecords":6}
