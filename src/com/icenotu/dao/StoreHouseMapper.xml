@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icenotu.dao.StoreHouseMapper" >
+  <resultMap id="StroeHouseResultMap" type="com.icenotu.entity.StoreHouse" >
+    <id column="sh_id" property="shId" jdbcType="VARCHAR" />
+    <result column="sh_name" property="shName" jdbcType="VARCHAR" />
+    <result column="sh_responsible" property="shResponsible" jdbcType="VARCHAR" />
+    <result column="sh_phone" property="shPhone" jdbcType="VARCHAR" />
+    <result column="sh_address" property="shAddress" jdbcType="VARCHAR" />
+    <result column="sh_type" property="shType" jdbcType="VARCHAR" />
+    <result column="sh_remark" property="shRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Store_House_Column_List" >
+    sh_id, sh_name, sh_responsible, sh_phone, sh_address, sh_type, sh_remark
+  </sql>
+  <insert id="insert" parameterType="com.icenotu.entity.StoreHouse" >
+    insert into store_house (sh_id, sh_name, sh_responsible,
+    sh_phone, sh_address, sh_type,
+    sh_remark)
+    values (#{shId,jdbcType=VARCHAR}, #{shName,jdbcType=VARCHAR}, #{shResponsible,jdbcType=VARCHAR},
+    #{shPhone,jdbcType=VARCHAR}, #{shAddress,jdbcType=VARCHAR}, #{shType,jdbcType=VARCHAR},
+    #{shRemark,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="select" resultMap="StroeHouseResultMap">
+    select
+    <include refid="Store_House_Column_List" />
+    from store_house
+  </select>
+
+  <select id="selectCount" resultType="Integer">
+    SELECT count(1) FROM store_house;
+  </select>
+
+  <select id="selectWithCondition" parameterType="PageData" resultMap="StroeHouseResultMap">
+    SELECT <include refid="Store_House_Column_List"/> FROM store_house
+    <where>
+      <if test="keyword!='%%'">
+        OR sh_name LIKE #{keyword}
+        OR sh_responsible  LIKE #{keyword}
+        OR sh_phone  LIKE #{keyword}
+        OR sh_address  LIKE #{keyword}
+        OR sh_type  LIKE #{keyword}
+        OR sh_remark  LIKE #{keyword}
+      </if>
+    </where>
+    limit #{start},#{length};
+  </select>
+
+  <select id="selectCountWithCondition" parameterType="PageData" resultType="Integer">
+    SELECT count(1) FROM store_house
+    WHERE sh_name LIKE #{keyword}
+          OR sh_responsible  LIKE #{keyword}
+          OR sh_phone  LIKE #{keyword}
+          OR sh_address  LIKE #{keyword}
+          OR sh_type  LIKE #{keyword}
+          OR sh_remark  LIKE #{keyword}
+  </select>
+
+  <delete id="deleteAll">
+    DELETE FROM store_house WHERE sh_id IN
+    <foreach collection="array" open="(" close=")" separator="," item="pk">
+      #{pk}
+    </foreach>
+  </delete>
+
+  <update id="update" parameterType="StoreHouse" >
+    UPDATE store_house SET
+      sh_name = #{shName,jdbcType=VARCHAR},
+      sh_responsible = #{shResponsible,jdbcType=VARCHAR},
+      sh_phone = #{shPhone,jdbcType=VARCHAR},
+      sh_address = #{shAddress,jdbcType=VARCHAR},
+      sh_type = #{shType,jdbcType=VARCHAR},
+      sh_remark = #{shRemark,jdbcType=VARCHAR}
+    where sh_id = #{shId,jdbcType=VARCHAR}
+  </update>
+
+
+
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from store_house
+    where sh_id = #{shId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from store_house
+    where sh_id = #{shId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.icenotu.entity.StoreHouse" >
+    insert into store_house (sh_id, sh_name, sh_responsible, 
+      sh_phone, sh_address, sh_type, 
+      sh_remark)
+    values (#{shId,jdbcType=VARCHAR}, #{shName,jdbcType=VARCHAR}, #{shResponsible,jdbcType=VARCHAR}, 
+      #{shPhone,jdbcType=VARCHAR}, #{shAddress,jdbcType=VARCHAR}, #{shType,jdbcType=VARCHAR}, 
+      #{shRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.icenotu.entity.StoreHouse" >
+    insert into store_house
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shId != null" >
+        sh_id,
+      </if>
+      <if test="shName != null" >
+        sh_name,
+      </if>
+      <if test="shResponsible != null" >
+        sh_responsible,
+      </if>
+      <if test="shPhone != null" >
+        sh_phone,
+      </if>
+      <if test="shAddress != null" >
+        sh_address,
+      </if>
+      <if test="shType != null" >
+        sh_type,
+      </if>
+      <if test="shRemark != null" >
+        sh_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shId != null" >
+        #{shId,jdbcType=VARCHAR},
+      </if>
+      <if test="shName != null" >
+        #{shName,jdbcType=VARCHAR},
+      </if>
+      <if test="shResponsible != null" >
+        #{shResponsible,jdbcType=VARCHAR},
+      </if>
+      <if test="shPhone != null" >
+        #{shPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shAddress != null" >
+        #{shAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shType != null" >
+        #{shType,jdbcType=VARCHAR},
+      </if>
+      <if test="shRemark != null" >
+        #{shRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.icenotu.entity.StoreHouse" >
+    update store_house
+    <set >
+      <if test="shName != null" >
+        sh_name = #{shName,jdbcType=VARCHAR},
+      </if>
+      <if test="shResponsible != null" >
+        sh_responsible = #{shResponsible,jdbcType=VARCHAR},
+      </if>
+      <if test="shPhone != null" >
+        sh_phone = #{shPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shAddress != null" >
+        sh_address = #{shAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shType != null" >
+        sh_type = #{shType,jdbcType=VARCHAR},
+      </if>
+      <if test="shRemark != null" >
+        sh_remark = #{shRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sh_id = #{shId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.icenotu.entity.StoreHouse" >
+    update store_house
+    set sh_name = #{shName,jdbcType=VARCHAR},
+      sh_responsible = #{shResponsible,jdbcType=VARCHAR},
+      sh_phone = #{shPhone,jdbcType=VARCHAR},
+      sh_address = #{shAddress,jdbcType=VARCHAR},
+      sh_type = #{shType,jdbcType=VARCHAR},
+      sh_remark = #{shRemark,jdbcType=VARCHAR}
+    where sh_id = #{shId,jdbcType=VARCHAR}
+  </update>-->
+</mapper>

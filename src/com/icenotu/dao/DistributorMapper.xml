@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icenotu.dao.DistributorMapper" >
+  <resultMap id="DistributorResultMap" type="com.icenotu.entity.Distributor" >
+    <id column="dtb_id" property="dtbId" jdbcType="VARCHAR" />
+    <result column="dtb_name" property="dtbName" jdbcType="VARCHAR" />
+    <result column="dtb_linkman" property="dtbLinkman" jdbcType="VARCHAR" />
+    <result column="dtb_phone" property="dtbPhone" jdbcType="VARCHAR" />
+    <result column="dtb_address" property="dtbAddress" jdbcType="VARCHAR" />
+    <result column="dtb_remark" property="dtbRemark" jdbcType="VARCHAR" />
+    <result column="dtb_receivable" property="dtbReceivable" jdbcType="DECIMAL" />
+    <result column="dtb_type" property="dtbType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dtb_id, dtb_name, dtb_linkman, dtb_phone, dtb_address, dtb_remark, dtb_receivable, 
+    dtb_type
+  </sql>
+    <insert id="insert" parameterType="Distributor" >
+        insert into distributor (dtb_id, dtb_name, dtb_linkman,
+        dtb_phone, dtb_address, dtb_remark, dtb_receivable, dtb_type
+        )
+        values (#{dtbId,jdbcType=VARCHAR}, #{dtbName,jdbcType=VARCHAR}, #{dtbLinkman,jdbcType=VARCHAR},
+            #{dtbPhone,jdbcType=VARCHAR}, #{dtbAddress,jdbcType=VARCHAR}, #{dtbRemark,jdbcType=VARCHAR},
+            #{dtbReceivable,jdbcType=DECIMAL}, #{dtbType,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="select" resultMap="DistributorResultMap">
+        SELECT dtb_id, dtb_name, dtb_linkman, dtb_phone, dtb_address, dtb_remark, dtb_receivable, dtb_type FROM distributor;
+    </select>
+
+    <select id="selectCount" resultType="Integer">
+        SELECT count(1) FROM distributor;
+    </select>
+
+    <select id="selectWithCondition" parameterType="PageData" resultMap="DistributorResultMap">
+        SELECT dtb_id, dtb_name, dtb_linkman, dtb_phone, dtb_address, dtb_remark, dtb_receivable, dtb_type FROM distributor
+        <where>
+            <if test="keyword!='%%'">
+                OR dtb_name  LIKE #{keyword}
+                OR dtb_linkman  LIKE #{keyword}
+                OR dtb_phone  LIKE #{keyword}
+                OR dtb_address  LIKE #{keyword}
+                OR dtb_remark  LIKE #{keyword}
+                OR dtb_receivable LIKE #{keyword}
+                OR dtb_type LIKE #{keyword}
+            </if>
+        </where>
+        limit #{start},#{length};
+    </select>
+
+    <select id="selectCountWithCondition" parameterType="PageData" resultType="Integer">
+        SELECT count(1) FROM distributor
+        WHERE dtb_name  LIKE #{keyword}
+              OR dtb_linkman  LIKE #{keyword}
+              OR dtb_phone  LIKE #{keyword}
+              OR dtb_address  LIKE #{keyword}
+              OR dtb_remark  LIKE #{keyword}
+              OR dtb_receivable LIKE #{keyword}
+              OR dtb_type LIKE #{keyword}
+    </select>
+
+    <delete id="deleteAll">
+        DELETE FROM distributor WHERE dtb_id IN
+        <foreach collection="array" open="(" close=")" separator="," item="pk">
+            #{pk}
+        </foreach>
+    </delete>
+
+    <update id="update" parameterType="Distributor" >
+        UPDATE distributor SET
+            dtb_name = #{dtbName,jdbcType=VARCHAR},
+            dtb_linkman = #{dtbLinkman,jdbcType=VARCHAR},
+            dtb_phone = #{dtbPhone,jdbcType=VARCHAR},
+            dtb_address = #{dtbAddress,jdbcType=VARCHAR},
+            dtb_remark = #{dtbRemark,jdbcType=VARCHAR},
+            dtb_receivable = #{dtbReceivable,jdbcType=DECIMAL},
+            dtb_type = #{dtbType,jdbcType=VARCHAR}
+        WHERE dtb_id = #{dtbId,jdbcType=VARCHAR}
+    </update>
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from distributor
+    where dtb_id = #{dtbId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from distributor
+    where dtb_id = #{dtbId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.icenotu.entity.Distributor" >
+    insert into distributor (dtb_id, dtb_name, dtb_linkman, 
+      dtb_phone, dtb_address, dtb_remark, 
+      dtb_receivable, dtb_type)
+    values (#{dtbId,jdbcType=VARCHAR}, #{dtbName,jdbcType=VARCHAR}, #{dtbLinkman,jdbcType=VARCHAR}, 
+      #{dtbPhone,jdbcType=VARCHAR}, #{dtbAddress,jdbcType=VARCHAR}, #{dtbRemark,jdbcType=VARCHAR}, 
+      #{dtbReceivable,jdbcType=DECIMAL}, #{dtbType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.icenotu.entity.Distributor" >
+    insert into distributor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dtbId != null" >
+        dtb_id,
+      </if>
+      <if test="dtbName != null" >
+        dtb_name,
+      </if>
+      <if test="dtbLinkman != null" >
+        dtb_linkman,
+      </if>
+      <if test="dtbPhone != null" >
+        dtb_phone,
+      </if>
+      <if test="dtbAddress != null" >
+        dtb_address,
+      </if>
+      <if test="dtbRemark != null" >
+        dtb_remark,
+      </if>
+      <if test="dtbReceivable != null" >
+        dtb_receivable,
+      </if>
+      <if test="dtbType != null" >
+        dtb_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dtbId != null" >
+        #{dtbId,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbName != null" >
+        #{dtbName,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbLinkman != null" >
+        #{dtbLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbPhone != null" >
+        #{dtbPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbAddress != null" >
+        #{dtbAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbRemark != null" >
+        #{dtbRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbReceivable != null" >
+        #{dtbReceivable,jdbcType=DECIMAL},
+      </if>
+      <if test="dtbType != null" >
+        #{dtbType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.icenotu.entity.Distributor" >
+    update distributor
+    <set >
+      <if test="dtbName != null" >
+        dtb_name = #{dtbName,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbLinkman != null" >
+        dtb_linkman = #{dtbLinkman,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbPhone != null" >
+        dtb_phone = #{dtbPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbAddress != null" >
+        dtb_address = #{dtbAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbRemark != null" >
+        dtb_remark = #{dtbRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbReceivable != null" >
+        dtb_receivable = #{dtbReceivable,jdbcType=DECIMAL},
+      </if>
+      <if test="dtbType != null" >
+        dtb_type = #{dtbType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dtb_id = #{dtbId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.icenotu.entity.Distributor" >
+    update distributor
+    set dtb_name = #{dtbName,jdbcType=VARCHAR},
+      dtb_linkman = #{dtbLinkman,jdbcType=VARCHAR},
+      dtb_phone = #{dtbPhone,jdbcType=VARCHAR},
+      dtb_address = #{dtbAddress,jdbcType=VARCHAR},
+      dtb_remark = #{dtbRemark,jdbcType=VARCHAR},
+      dtb_receivable = #{dtbReceivable,jdbcType=DECIMAL},
+      dtb_type = #{dtbType,jdbcType=VARCHAR}
+    where dtb_id = #{dtbId,jdbcType=VARCHAR}
+  </update>-->
+</mapper>

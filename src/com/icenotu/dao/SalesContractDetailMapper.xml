@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icenotu.dao.SalesContractDetailMapper" >
+  <resultMap id="SalesContractDetailResultMap" type="com.icenotu.entity.SalesContractDetail" >
+    <id column="scd_id" property="scdId" jdbcType="VARCHAR" />
+    <result column="sh_id" property="shId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+    <result column="goods_color" property="goodsColor" jdbcType="VARCHAR" />
+    <result column="scd_amount" property="scdAmount" jdbcType="INTEGER" />
+    <result column="scd_unit_price" property="scdUnitPrice" jdbcType="DECIMAL" />
+    <result column="scd_total_price" property="scdTotalPrice" jdbcType="DECIMAL" />
+    <result column="sc_id" property="scId" jdbcType="VARCHAR" />
+    <result column="scd_imei_list" property="scdImeiList" jdbcType="LONGVARCHAR" />
+  </resultMap>
+ <!-- <resultMap id="ResultMapWithBLOBs" type="com.icenotu.entity.SalesContractDetail" extends="BaseResultMap" >
+    <result column="scd_imei_list" property="scdImeiList" jdbcType="LONGVARCHAR" />
+  </resultMap>-->
+  <sql id="SalesContractDetail_Column_List" >
+    scd_id, sh_id, goods_id, goods_name, goods_unit, goods_type, goods_color, scd_amount, 
+    scd_unit_price, scd_total_price, sc_id, scd_imei_list
+  </sql>
+
+  <insert id="insertList">
+    insert into sales_contract_detail (
+    <include refid="SalesContractDetail_Column_List"/>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      #{item.scdId,jdbcType=VARCHAR}, #{item.shId,jdbcType=VARCHAR}, #{item.goodsId,jdbcType=VARCHAR},
+      #{item.goodsName,jdbcType=VARCHAR}, #{item.goodsUnit,jdbcType=VARCHAR}, #{item.goodsType,jdbcType=VARCHAR},
+      #{item.goodsColor,jdbcType=VARCHAR}, #{item.scdAmount,jdbcType=INTEGER}, #{item.scdUnitPrice,jdbcType=DECIMAL},
+      #{item.scdTotalPrice,jdbcType=DECIMAL}, #{item.scId,jdbcType=VARCHAR}, #{item.scdImeiList,jdbcType=LONGVARCHAR}
+      )
+    </foreach>
+  </insert>
+
+  <select id="selectWithCondition" parameterType="PageData" resultMap="SalesContractDetailResultMap">
+    SELECT <include refid="SalesContractDetail_Column_List"/> FROM sales_contract_detail
+    <where>
+      sc_id = #{scId}
+      <if test="keyword!='%%'">
+        AND(
+        goods_name  LIKE #{keyword}
+        OR goods_unit  LIKE #{keyword}
+        OR goods_type  LIKE #{keyword}
+        OR goods_color  LIKE #{keyword}
+        OR scd_amount  LIKE #{keyword}
+        OR scd_unit_price LIKE #{keyword}
+        OR scd_total_price LIKE #{keyword}
+        OR scd_imei_list LIKE #{keyword}
+        )
+      </if>
+    </where>
+    limit #{start},#{length};
+  </select>
+
+  <select id="selectCountWithCondition" parameterType="PageData" resultType="Integer">
+    SELECT count(1) FROM sales_contract_detail
+    <where>
+      sc_id = #{scId}
+      <if test="keyword!='%%'">
+        AND(
+        goods_name  LIKE #{keyword}
+        OR goods_unit  LIKE #{keyword}
+        OR goods_type  LIKE #{keyword}
+        OR goods_color  LIKE #{keyword}
+        OR scd_amount  LIKE #{keyword}
+        OR scd_unit_price LIKE #{keyword}
+        OR scd_total_price LIKE #{keyword}
+        OR scd_imei_list LIKE #{keyword}
+        )
+      </if>
+    </where>
+  </select>
+<!--  <sql id="Blob_Column_List" >
+    scd_imei_list
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sales_contract_detail
+    where scd_id = #{scdId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sales_contract_detail
+    where scd_id = #{scdId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.icenotu.entity.SalesContractDetail" >
+    insert into sales_contract_detail (scd_id, sh_id, goods_id, 
+      goods_name, goods_unit, goods_type, 
+      goods_color, scd_amount, scd_unit_price, 
+      scd_total_price, sc_id, scd_imei_list
+      )
+    values (#{scdId,jdbcType=VARCHAR}, #{shId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{goodsUnit,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
+      #{goodsColor,jdbcType=VARCHAR}, #{scdAmount,jdbcType=INTEGER}, #{scdUnitPrice,jdbcType=DECIMAL}, 
+      #{scdTotalPrice,jdbcType=DECIMAL}, #{scId,jdbcType=VARCHAR}, #{scdImeiList,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.icenotu.entity.SalesContractDetail" >
+    insert into sales_contract_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scdId != null" >
+        scd_id,
+      </if>
+      <if test="shId != null" >
+        sh_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsUnit != null" >
+        goods_unit,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="goodsColor != null" >
+        goods_color,
+      </if>
+      <if test="scdAmount != null" >
+        scd_amount,
+      </if>
+      <if test="scdUnitPrice != null" >
+        scd_unit_price,
+      </if>
+      <if test="scdTotalPrice != null" >
+        scd_total_price,
+      </if>
+      <if test="scId != null" >
+        sc_id,
+      </if>
+      <if test="scdImeiList != null" >
+        scd_imei_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scdId != null" >
+        #{scdId,jdbcType=VARCHAR},
+      </if>
+      <if test="shId != null" >
+        #{shId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnit != null" >
+        #{goodsUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsColor != null" >
+        #{goodsColor,jdbcType=VARCHAR},
+      </if>
+      <if test="scdAmount != null" >
+        #{scdAmount,jdbcType=INTEGER},
+      </if>
+      <if test="scdUnitPrice != null" >
+        #{scdUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="scdTotalPrice != null" >
+        #{scdTotalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="scId != null" >
+        #{scId,jdbcType=VARCHAR},
+      </if>
+      <if test="scdImeiList != null" >
+        #{scdImeiList,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.icenotu.entity.SalesContractDetail" >
+    update sales_contract_detail
+    <set >
+      <if test="shId != null" >
+        sh_id = #{shId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnit != null" >
+        goods_unit = #{goodsUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsColor != null" >
+        goods_color = #{goodsColor,jdbcType=VARCHAR},
+      </if>
+      <if test="scdAmount != null" >
+        scd_amount = #{scdAmount,jdbcType=INTEGER},
+      </if>
+      <if test="scdUnitPrice != null" >
+        scd_unit_price = #{scdUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="scdTotalPrice != null" >
+        scd_total_price = #{scdTotalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="scId != null" >
+        sc_id = #{scId,jdbcType=VARCHAR},
+      </if>
+      <if test="scdImeiList != null" >
+        scd_imei_list = #{scdImeiList,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where scd_id = #{scdId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.icenotu.entity.SalesContractDetail" >
+    update sales_contract_detail
+    set sh_id = #{shId,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_unit = #{goodsUnit,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_color = #{goodsColor,jdbcType=VARCHAR},
+      scd_amount = #{scdAmount,jdbcType=INTEGER},
+      scd_unit_price = #{scdUnitPrice,jdbcType=DECIMAL},
+      scd_total_price = #{scdTotalPrice,jdbcType=DECIMAL},
+      sc_id = #{scId,jdbcType=VARCHAR},
+      scd_imei_list = #{scdImeiList,jdbcType=LONGVARCHAR}
+    where scd_id = #{scdId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.icenotu.entity.SalesContractDetail" >
+    update sales_contract_detail
+    set sh_id = #{shId,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_unit = #{goodsUnit,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_color = #{goodsColor,jdbcType=VARCHAR},
+      scd_amount = #{scdAmount,jdbcType=INTEGER},
+      scd_unit_price = #{scdUnitPrice,jdbcType=DECIMAL},
+      scd_total_price = #{scdTotalPrice,jdbcType=DECIMAL},
+      sc_id = #{scId,jdbcType=VARCHAR}
+    where scd_id = #{scdId,jdbcType=VARCHAR}
+  </update>-->
+</mapper>

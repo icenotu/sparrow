@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icenotu.dao.SalesContractMapper" >
+  <resultMap id="SalesContractResultMap" type="com.icenotu.entity.SalesContract" >
+    <id column="sc_id" property="scId" jdbcType="VARCHAR" />
+    <result column="dtb_id" property="dtbId" jdbcType="VARCHAR" />
+    <result column="sc_date" property="scDate" jdbcType="DATE" />
+    <result column="sc_receivable" property="scReceivable" jdbcType="DECIMAL" />
+    <result column="sc_advanced" property="scAdvanced" jdbcType="DECIMAL" />
+    <result column="sc_discount" property="scDiscount" jdbcType="DECIMAL" />
+    <result column="sc_original" property="scOriginal" jdbcType="VARCHAR" />
+    <result column="sc_remark" property="scRemark" jdbcType="VARCHAR" />
+    <result column="sc_attn" property="scAttn" jdbcType="VARCHAR" />
+    <result column="sc_operator" property="scOperator" jdbcType="INTEGER" />
+    <result column="sc_status" property="scStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="SalesContract_Column_List" >
+    sc_id, dtb_id, sc_date, sc_receivable, sc_advanced, sc_discount, sc_original, sc_remark, 
+    sc_attn, sc_operator, sc_status
+  </sql>
+
+  <insert id="insert" parameterType="SalesContract" >
+    insert into sales_contract (
+    <include refid="SalesContract_Column_List"/>
+    )
+    values (#{scId,jdbcType=VARCHAR}, #{dtbId,jdbcType=VARCHAR}, #{scDate,jdbcType=DATE},
+    #{scReceivable,jdbcType=DECIMAL}, #{scAdvanced,jdbcType=DECIMAL}, #{scDiscount,jdbcType=DECIMAL},
+    #{scOriginal,jdbcType=VARCHAR}, #{scRemark,jdbcType=VARCHAR}, #{scAttn,jdbcType=VARCHAR},
+    #{scOperator,jdbcType=INTEGER}, #{scStatus,jdbcType=INTEGER})
+  </insert>
+  <select id="selectWithCondition" parameterType="PageData" resultMap="SalesContractResultMap">
+    SELECT <include refid="SalesContract_Column_List"/> FROM sales_contract
+    <where>
+      sc_date &lt;= #{endDate}
+      AND sc_date &gt;= #{startDate}
+      <if test="keyword!='%%'">
+        AND(
+        sc_id  LIKE #{keyword}
+        OR dtb_id  LIKE #{keyword}
+        OR sc_receivable  LIKE #{keyword}
+        OR sc_advanced  LIKE #{keyword}
+        OR sc_discount  LIKE #{keyword}
+        OR sc_original LIKE #{keyword}
+        OR sc_attn LIKE #{keyword}
+        OR sc_operator LIKE #{keyword}
+        OR sc_remark LIKE #{keyword}
+        OR sc_status LIKE #{keyword}
+        )
+      </if>
+    </where>
+    limit #{start},#{length};
+  </select>
+
+  <select id="selectCountWithCondition" parameterType="PageData" resultType="Integer">
+    SELECT count(1) FROM sales_contract
+    <where>
+      sc_date &lt;= #{endDate}
+      AND sc_date &gt;= #{startDate}
+      <if test="keyword!='%%'">
+        AND(
+        sc_id  LIKE #{keyword}
+        OR dtb_id  LIKE #{keyword}
+        OR sc_receivable  LIKE #{keyword}
+        OR sc_advanced  LIKE #{keyword}
+        OR sc_discount  LIKE #{keyword}
+        OR sc_original LIKE #{keyword}
+        OR sc_attn LIKE #{keyword}
+        OR sc_operator LIKE #{keyword}
+        OR sc_remark LIKE #{keyword}
+        OR sc_status LIKE #{keyword}
+        )
+      </if>
+    </where>
+  </select>
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sales_contract
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sales_contract
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.icenotu.entity.SalesContract" >
+    insert into sales_contract (sc_id, dtb_id, sc_date, 
+      sc_receivable, sc_advanced, sc_discount, 
+      sc_original, sc_remark, sc_attn, 
+      sc_operator)
+    values (#{scId,jdbcType=VARCHAR}, #{dtbId,jdbcType=VARCHAR}, #{scDate,jdbcType=DATE}, 
+      #{scReceivable,jdbcType=DECIMAL}, #{scAdvanced,jdbcType=DECIMAL}, #{scDiscount,jdbcType=DECIMAL}, 
+      #{scOriginal,jdbcType=VARCHAR}, #{scRemark,jdbcType=VARCHAR}, #{scAttn,jdbcType=VARCHAR}, 
+      #{scOperator,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.icenotu.entity.SalesContract" >
+    insert into sales_contract
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scId != null" >
+        sc_id,
+      </if>
+      <if test="dtbId != null" >
+        dtb_id,
+      </if>
+      <if test="scDate != null" >
+        sc_date,
+      </if>
+      <if test="scReceivable != null" >
+        sc_receivable,
+      </if>
+      <if test="scAdvanced != null" >
+        sc_advanced,
+      </if>
+      <if test="scDiscount != null" >
+        sc_discount,
+      </if>
+      <if test="scOriginal != null" >
+        sc_original,
+      </if>
+      <if test="scRemark != null" >
+        sc_remark,
+      </if>
+      <if test="scAttn != null" >
+        sc_attn,
+      </if>
+      <if test="scOperator != null" >
+        sc_operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scId != null" >
+        #{scId,jdbcType=VARCHAR},
+      </if>
+      <if test="dtbId != null" >
+        #{dtbId,jdbcType=VARCHAR},
+      </if>
+      <if test="scDate != null" >
+        #{scDate,jdbcType=DATE},
+      </if>
+      <if test="scReceivable != null" >
+        #{scReceivable,jdbcType=DECIMAL},
+      </if>
+      <if test="scAdvanced != null" >
+        #{scAdvanced,jdbcType=DECIMAL},
+      </if>
+      <if test="scDiscount != null" >
+        #{scDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="scOriginal != null" >
+        #{scOriginal,jdbcType=VARCHAR},
+      </if>
+      <if test="scRemark != null" >
+        #{scRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="scAttn != null" >
+        #{scAttn,jdbcType=VARCHAR},
+      </if>
+      <if test="scOperator != null" >
+        #{scOperator,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.icenotu.entity.SalesContract" >
+    update sales_contract
+    <set >
+      <if test="dtbId != null" >
+        dtb_id = #{dtbId,jdbcType=VARCHAR},
+      </if>
+      <if test="scDate != null" >
+        sc_date = #{scDate,jdbcType=DATE},
+      </if>
+      <if test="scReceivable != null" >
+        sc_receivable = #{scReceivable,jdbcType=DECIMAL},
+      </if>
+      <if test="scAdvanced != null" >
+        sc_advanced = #{scAdvanced,jdbcType=DECIMAL},
+      </if>
+      <if test="scDiscount != null" >
+        sc_discount = #{scDiscount,jdbcType=DECIMAL},
+      </if>
+      <if test="scOriginal != null" >
+        sc_original = #{scOriginal,jdbcType=VARCHAR},
+      </if>
+      <if test="scRemark != null" >
+        sc_remark = #{scRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="scAttn != null" >
+        sc_attn = #{scAttn,jdbcType=VARCHAR},
+      </if>
+      <if test="scOperator != null" >
+        sc_operator = #{scOperator,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.icenotu.entity.SalesContract" >
+    update sales_contract
+    set dtb_id = #{dtbId,jdbcType=VARCHAR},
+      sc_date = #{scDate,jdbcType=DATE},
+      sc_receivable = #{scReceivable,jdbcType=DECIMAL},
+      sc_advanced = #{scAdvanced,jdbcType=DECIMAL},
+      sc_discount = #{scDiscount,jdbcType=DECIMAL},
+      sc_original = #{scOriginal,jdbcType=VARCHAR},
+      sc_remark = #{scRemark,jdbcType=VARCHAR},
+      sc_attn = #{scAttn,jdbcType=VARCHAR},
+      sc_operator = #{scOperator,jdbcType=INTEGER}
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </update>-->
+</mapper>
