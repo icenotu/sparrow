@@ -28,7 +28,7 @@ public class SalesContract implements Serializable{
 
     private Integer scOperator;
 
-    private Integer scStatus;
+    private Integer scStatus = 0;
 
     public Integer getScStatus() {
         return scStatus;

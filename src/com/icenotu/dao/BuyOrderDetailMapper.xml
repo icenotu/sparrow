@@ -31,14 +31,14 @@
       (#{item.bodId,jdbcType=VARCHAR}, #{item.goodsId,jdbcType=VARCHAR}, #{item.goodsName,jdbcType=VARCHAR},
     #{item.goodsUnit,jdbcType=VARCHAR}, #{item.goodsType,jdbcType=VARCHAR}, #{item.goodsColor,jdbcType=VARCHAR},
     #{item.bodAmount,jdbcType=INTEGER}, #{item.bodBuyPrice,jdbcType=DECIMAL}, #{item.bodTotalPrice,jdbcType=DECIMAL},
-    #{item.boId,jdbcType=VARCHAR}, #{item.bodImeiList,jdbcType=LONGVARCHAR})
+    #{item.orderId,jdbcType=VARCHAR}, #{item.bodImeiList,jdbcType=LONGVARCHAR})
     </foreach>
   </insert>
 
   <select id="selectWithCondition" parameterType="PageData" resultMap="BuyOrderDetailResultMap">
     SELECT <include refid="BuyOrderDetail_Column_List"/> FROM buy_order_detail
     <where>
-      bo_id = #{boId}
+      bo_id = #{orderId}
       <if test="keyword!='%%'">
         AND(
         goods_name  LIKE #{keyword}
@@ -58,7 +58,7 @@
   <select id="selectCountWithCondition" parameterType="PageData" resultType="Integer">
     SELECT count(1) FROM buy_order_detail
     <where>
-      bo_id = #{boId}
+      bo_id = #{orderId}
       <if test="keyword!='%%'">
         AND(
         goods_name  LIKE #{keyword}
@@ -96,7 +96,7 @@
     values (#{bodId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
       #{goodsUnit,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, #{goodsColor,jdbcType=VARCHAR}, 
       #{bodAmount,jdbcType=INTEGER}, #{bodBuyPrice,jdbcType=DECIMAL}, #{bodTotalPrice,jdbcType=DECIMAL}, 
-      #{boId,jdbcType=VARCHAR}, #{bodImeiList,jdbcType=LONGVARCHAR})
+      #{orderId,jdbcType=VARCHAR}, #{bodImeiList,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.icenotu.entity.BuyOrderDetail" >
     insert into buy_order_detail
@@ -128,7 +128,7 @@
       <if test="bodTotalPrice != null" >
         bod_total_price,
       </if>
-      <if test="boId != null" >
+      <if test="orderId != null" >
         bo_id,
       </if>
       <if test="bodImeiList != null" >
@@ -163,8 +163,8 @@
       <if test="bodTotalPrice != null" >
         #{bodTotalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="boId != null" >
-        #{boId,jdbcType=VARCHAR},
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="bodImeiList != null" >
         #{bodImeiList,jdbcType=LONGVARCHAR},
@@ -198,8 +198,8 @@
       <if test="bodTotalPrice != null" >
         bod_total_price = #{bodTotalPrice,jdbcType=DECIMAL},
       </if>
-      <if test="boId != null" >
-        bo_id = #{boId,jdbcType=VARCHAR},
+      <if test="orderId != null" >
+        bo_id = #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="bodImeiList != null" >
         bod_imei_list = #{bodImeiList,jdbcType=LONGVARCHAR},
@@ -217,7 +217,7 @@
       bod_amount = #{bodAmount,jdbcType=INTEGER},
       bod_buy_price = #{bodBuyPrice,jdbcType=DECIMAL},
       bod_total_price = #{bodTotalPrice,jdbcType=DECIMAL},
-      bo_id = #{boId,jdbcType=VARCHAR},
+      bo_id = #{orderId,jdbcType=VARCHAR},
       bod_imei_list = #{bodImeiList,jdbcType=LONGVARCHAR}
     where bod_id = #{bodId,jdbcType=VARCHAR}
   </update>
@@ -231,7 +231,7 @@
       bod_amount = #{bodAmount,jdbcType=INTEGER},
       bod_buy_price = #{bodBuyPrice,jdbcType=DECIMAL},
       bod_total_price = #{bodTotalPrice,jdbcType=DECIMAL},
-      bo_id = #{boId,jdbcType=VARCHAR}
+      bo_id = #{orderId,jdbcType=VARCHAR}
     where bod_id = #{bodId,jdbcType=VARCHAR}
   </update>-->
 </mapper>

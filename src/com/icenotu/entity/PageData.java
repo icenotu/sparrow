@@ -18,7 +18,7 @@ public class PageData<T> implements Serializable{
     private String paramType;
     private Date startDate;
     private Date endDate;
-    private String boId;
+    private String orderId;
 
     public String getParamType() {
         return paramType;
@@ -116,12 +116,12 @@ public class PageData<T> implements Serializable{
         this.endDate = endDate;
     }
 
-    public String getBoId() {
-        return boId;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setBoId(String boId) {
-        this.boId = boId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     @Override
@@ -136,7 +136,7 @@ public class PageData<T> implements Serializable{
                 ", paramType='" + paramType + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", boId='" + boId + '\'' +
+                ", orderId='" + orderId + '\'' +
                 ", data=" + data +
                 '}';
     }

@@ -15,7 +15,7 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3 class="page_title">采购订单信息列表</h3>
+                <h3 class="page_title">销售订单信息列表</h3>
               </div>
             </div>
 
@@ -25,7 +25,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h2>查看采购订单 <small>信息列表</small></h2>
+                  <h2>查看销售订单 <small>信息列表</small></h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="x_content">
                   <p class="text-muted font-13 m-b-30">
-                    下表显示了公司的采购订单信息
+                    下表显示了公司的销售订单信息
                   </p>
                   <div class="form-horizontal">
                     <div class="form-group">
@@ -80,14 +80,15 @@
                     <thead>
                     <tr>
                       <th>订单编号</th>
-                      <th>供应商</th>
+                      <th>经销商</th>
                       <th>原始单号</th>
-                      <th>订单应付</th>
-                      <th>订单已付</th>
-                      <th>订单欠款</th>
+                      <th>订单应收</th>
+                      <th>订单预收</th>
+                      <th>订单折扣</th>
                       <th>签订日期</th>
                       <th>经手人</th>
                       <th>备注</th>
+                      <th>订单状态</th>
                       <th>订单详情</th>
                     </tr>
                     </thead>
@@ -121,9 +122,9 @@
                       <th>单位</th>
                       <th>商品类型</th>
                       <th>商品颜色</th>
-                      <th>采购数量</th>
-                      <th>采购单价</th>
-                      <th>采购总价</th>
+                      <th>销售数量</th>
+                      <th>销售单价</th>
+                      <th>销售总价</th>
                       <th>串号列表</th>
                     </tr>
                     </thead>
@@ -148,9 +149,9 @@
 
     <%@include file="/common/footerJs.jsp"%>
     <!-- Datatables -->
-    <script src="${proPath}/build/js/buyOrderViewTables.js"></script>
+    <script src="${proPath}/build/js/salesContractViewTables.js"></script>
     <!-- myForms -->
-    <script src="${proPath}/build/js/buyOrderViewForms.js"></script>
+    <script src="${proPath}/build/js/salesContractViewForms.js"></script>
 
 
 

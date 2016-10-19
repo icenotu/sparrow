@@ -41,7 +41,7 @@
   <select id="selectWithCondition" parameterType="PageData" resultMap="SalesContractDetailResultMap">
     SELECT <include refid="SalesContractDetail_Column_List"/> FROM sales_contract_detail
     <where>
-      sc_id = #{scId}
+      sc_id = #{orderId}
       <if test="keyword!='%%'">
         AND(
         goods_name  LIKE #{keyword}
@@ -61,7 +61,7 @@
   <select id="selectCountWithCondition" parameterType="PageData" resultType="Integer">
     SELECT count(1) FROM sales_contract_detail
     <where>
-      sc_id = #{scId}
+      sc_id = #{orderId}
       <if test="keyword!='%%'">
         AND(
         goods_name  LIKE #{keyword}

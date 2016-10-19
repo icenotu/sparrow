@@ -75,6 +75,7 @@
                         <ul class="nav child_menu">
                             <li><a href="${proPath}/base/goURL/sales/distributorManagement.form">经销商信息</a></li>
                             <li><a href="${proPath}/base/goURL/sales/salesGoods.form">销售商品</a></li>
+                            <li><a href="${proPath}/base/goURL/sales/salesContractView.form">销售订单查询</a></li>
                         </ul>
                     </li>
                 </ul>
