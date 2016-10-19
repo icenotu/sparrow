@@ -132,7 +132,7 @@ $(function() {
                         content = "已发货";
                         btnClassName = "btn-primary";
                     }
-                    return '<button  id="checkInfo" class="btn '+ btnClassName +' btn-sm">'+content+'</button>'
+                    return '<button class="btn '+ btnClassName +' btn-sm">'+content+'</button>'
                 }
             },
             { //复选框单元格
