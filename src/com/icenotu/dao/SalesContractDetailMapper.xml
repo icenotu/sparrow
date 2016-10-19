@@ -76,6 +76,13 @@
       </if>
     </where>
   </select>
+
+  <select id="selectByScId" resultMap="SalesContractDetailResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="SalesContractDetail_Column_List" />
+    from sales_contract_detail
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </select>
 <!--  <sql id="Blob_Column_List" >
     scd_imei_list
   </sql>

@@ -72,6 +72,19 @@
       </if>
     </where>
   </select>
+
+  <select id="selectByScId" resultMap="SalesContractResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="SalesContract_Column_List" />
+    from sales_contract
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateStatus" parameterType="com.icenotu.entity.SalesContract" >
+    update sales_contract
+    set sc_status = #{scStatus,jdbcType=INTEGER}
+    where sc_id = #{scId,jdbcType=VARCHAR}
+  </update>
   <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

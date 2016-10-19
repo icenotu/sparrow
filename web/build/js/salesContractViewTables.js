@@ -139,10 +139,10 @@ $(function() {
                 "data": "scId",
                 render: function (data, type, row, meta) {
                     var btnClassName="";
-                    if (row.scStatus==0) {
+                    if (row.scStatus==1) {
                         btnClassName ="disabled";
                     }
-                    return '<button  id="checkInfo" class="btn btn-primary btn-sm" name='+data+'>查看详情</button><button  id="deliver" class="btn btn-success btn-sm" '+ btnClassName +' name='+data+'>发货</button>'
+                    return '<button  id="checkInfo" class="btn btn-primary btn-sm" name='+data+'>查看详情</button><button  id="deliver" class="btn btn-success btn-sm" name='+data+' ' +btnClassName +'>发货</button>'
                 }
             }
         ],
@@ -291,7 +291,36 @@ $(function() {
         $("#level2").click(function(){
             search2();
         });
-    
+
+    /**
+     * 点击查看发货按钮事件
+     */
+    $(document).delegate('#deliver','click',function() {
+        var scId= $(this).attr("name");
+        alert(scId);
+        $.ajax({
+            url : "../../../salesContract/deliver.form",
+            type: "POST",
+            dataType:"json",
+            data:{
+                "scId":scId
+            },
+            success:function (data) {
+                if(data>0)
+                {
+                    alert(data);
+                    window.location.reload();
+                }
+                else
+                {
+                    alert("发货失败");
+                }
+            },
+            error:function(data){
+                alert("请求异常");
+            }
+        })
+    });
 });
 
 

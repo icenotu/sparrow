@@ -67,4 +67,18 @@ public class SalesContractAction {
         }
         return pageData;
     }
+
+    @RequestMapping("/deliver")
+    @ResponseBody
+    public int checkInfo(SalesContract salesContract) {
+        System.out.println("---action:deliver:"+ salesContract);
+        int i = 0;
+        try {
+            i = salesContractService.deliver(salesContract);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("---action:deliver:"+ i);
+        return i;
+    }
 }

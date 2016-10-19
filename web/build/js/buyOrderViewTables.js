@@ -158,7 +158,7 @@ $(function() {
      */
         $(document).delegate('#checkInfo','click',function() {
         var boId= $(this).attr("name");
-            $("#boId").val(boId);
+            $("#orderId").val(boId);
             info.ajax.reload();//表格初始化是获取不到boId，需要重新加载才能获取得到
         $("#myModal-check-info").modal('show').children(".modal-dialog").css({
             // width:"75%",
@@ -240,8 +240,8 @@ $(function() {
                     var level1 = "%"+$('#level1').val()+"%";
                     //添加额外的参数传给服务器
                     d.keyword = level1;
-                    var boId = $("#boId").val();
-                    d.boId = boId;
+                    var boId = $("#orderId").val();
+                    d.orderId = boId;
                 }
             },
     

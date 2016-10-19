@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface SalesContractDetailMapper extends BaseMapper<SalesContractDetail>{
     int insertList(List<SalesContractDetail> salesContractDetails);
+
+    List<SalesContractDetail> selectByScId(String scId);
     /*int deleteByPrimaryKey(String scdId);
 
     int insert(SalesContractDetail record);

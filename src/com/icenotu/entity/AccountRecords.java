@@ -9,7 +9,7 @@ public class AccountRecords implements Serializable{
 
     private String arId;
 
-    private Integer supId;
+    private String supId;
 
     private Date arDate;
 
@@ -39,11 +39,11 @@ public class AccountRecords implements Serializable{
         this.arId = arId == null ? null : arId.trim();
     }
 
-    public Integer getSupId() {
+    public String getSupId() {
         return supId;
     }
 
-    public void setSupId(Integer supId) {
+    public void setSupId(String supId) {
         this.supId = supId;
     }
 

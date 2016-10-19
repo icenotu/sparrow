@@ -61,6 +61,7 @@
                       <th>单位</th>
                       <th>商品类型</th>
                       <th>商品颜色</th>
+                      <th>仓库编号</th>
                       <th>销售数量</th>
                       <th>销售单价</th>
                       <th>总价</th>
@@ -176,6 +177,13 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="scdUnitPrice" name="scdUnitPrice" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="shId">发货仓库 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="shId" name="shId" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">

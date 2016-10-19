@@ -7,4 +7,5 @@ import com.icenotu.entity.SalesContract;
  */
 public interface SalesContractService extends BaseService<SalesContract> {
     int insertSalesContract(SalesContract salesContract) throws Exception;
+    int deliver(SalesContract salesContract) throws Exception;
 }

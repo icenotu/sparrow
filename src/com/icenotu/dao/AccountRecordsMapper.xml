@@ -3,7 +3,7 @@
 <mapper namespace="com.icenotu.dao.AccountRecordsMapper" >
   <resultMap id="AccountRecordResultMap" type="com.icenotu.entity.AccountRecords" >
     <id column="ar_id" property="arId" jdbcType="VARCHAR" />
-    <result column="sup_id" property="supId" jdbcType="INTEGER" />
+    <result column="sup_id" property="supId" jdbcType="VARCHAR" />
     <result column="ar_date" property="arDate" jdbcType="DATE" />
     <result column="ar_order_id" property="arOrderId" jdbcType="VARCHAR" />
     <result column="ar_bus_type" property="arBusType" jdbcType="VARCHAR" />
@@ -25,7 +25,7 @@
     ar_paid, ar_arrears, ar_discount,
     ar_attn, ar_operator, ar_remark
     )
-    values (#{arId,jdbcType=VARCHAR}, #{supId,jdbcType=INTEGER}, #{arDate,jdbcType=DATE},
+    values (#{arId,jdbcType=VARCHAR}, #{supId,jdbcType=VARCHAR}, #{arDate,jdbcType=DATE},
     #{arOrderId,jdbcType=VARCHAR}, #{arBusType,jdbcType=VARCHAR}, #{arPayable,jdbcType=DECIMAL},
     #{arPaid,jdbcType=DECIMAL}, #{arArrears,jdbcType=DECIMAL}, #{arDiscount,jdbcType=DECIMAL},
     #{arAttn,jdbcType=VARCHAR}, #{arOperator,jdbcType=INTEGER}, #{arRemark,jdbcType=VARCHAR}

@@ -44,7 +44,7 @@ public class BuyOrderServiceImpl extends BaseServiceImpl<BuyOrder> implements Bu
         accountRecords.setArPaid(buyOrder.getBoPaid());
         accountRecords.setArPayable(buyOrder.getBoPayable());
         accountRecords.setArRemark(buyOrder.getBoRemark());
-        accountRecords.setSupId(buyOrder.getSupId());
+        accountRecords.setSupId(buyOrder.getSupId().toString());
         accountRecordsMapper.insert(accountRecords);
         //入库操作
         List<Inventory> ivList = new ArrayList<>();
