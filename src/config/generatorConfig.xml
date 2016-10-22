@@ -54,12 +54,14 @@
         <table tableName="store_house" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false" domainObjectName="StoreHouse"/>
         <table tableName="distributor" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false" domainObjectName="Distributor"/>-->
+               enableUpdateByExample="false" domainObjectName="Distributor"/>
         <table tableName="inventory" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false" domainObjectName="Inventory"/>
         <table tableName="sales_contract" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false" domainObjectName="SalesContract"/>
         <table tableName="sales_contract_detail" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false" domainObjectName="SalesContractDetail"/>
+               enableUpdateByExample="false" domainObjectName="SalesContractDetail"/>-->
+        <table tableName="sales_cost_report" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" domainObjectName="SalesCostReport"/>
     </context>
 </generatorConfiguration>

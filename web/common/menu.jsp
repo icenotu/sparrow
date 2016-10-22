@@ -78,6 +78,11 @@
                             <li><a href="${proPath}/base/goURL/sales/salesContractView.form">销售订单查询</a></li>
                         </ul>
                     </li>
+                    <li><a><i class="fa fa-edit"></i> 报表模块 <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="${proPath}/base/goURL/report/salesCostReport.form">销售成本表</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

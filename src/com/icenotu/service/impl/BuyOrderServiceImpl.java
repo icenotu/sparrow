@@ -60,8 +60,10 @@ public class BuyOrderServiceImpl extends BaseServiceImpl<BuyOrder> implements Bu
             inventory.setGoodsType(bod.getGoodsType());
             inventory.setGoodsUnit(bod.getGoodsUnit());
             inventory.setIvAmount(bod.getBodAmount());
-            inventory.setIvTotalCost(buyOrder.getBoPaid().add(buyOrder.getBoArrears()));
-            inventory.setIvUnitCost(inventory.getIvTotalCost().divide(new BigDecimal(bod.getBodAmount()),2,4));
+//            inventory.setIvTotalCost(buyOrder.getBoPaid().add(buyOrder.getBoArrears()));
+//            inventory.setIvUnitCost(inventory.getIvTotalCost().divide(new BigDecimal(bod.getBodAmount()),2,4));
+            inventory.setIvUnitCost(bod.getBodBuyPrice());
+            inventory.setIvTotalCost(bod.getBodTotalPrice());
             inventory.setBodImeiList(bod.getBodImeiList());
             inventory.setBoDate(buyOrder.getBoDate());
             inventory.setIvType("bo");

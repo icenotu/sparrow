@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icenotu.dao.SalesCostReportMapper" >
+  <resultMap id="SalesCostReportResultMap" type="com.icenotu.entity.SalesCostReport" >
+    <id column="scr_id" property="scrId" jdbcType="VARCHAR" />
+    <result column="sh_id" property="shId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+    <result column="goods_color" property="goodsColor" jdbcType="VARCHAR" />
+    <result column="scd_amount" property="scdAmount" jdbcType="INTEGER" />
+    <result column="scd_unit_cost" property="scdUnitCost" jdbcType="DECIMAL" />
+    <result column="scd_total_cost" property="scdTotalCost" jdbcType="DECIMAL" />
+    <result column="open_iv_amount" property="openIvAmount" jdbcType="INTEGER" />
+    <result column="open_unit_cost" property="openUnitCost" jdbcType="DECIMAL" />
+    <result column="open_total_cost" property="openTotalCost" jdbcType="DECIMAL" />
+    <result column="bod_amount" property="bodAmount" jdbcType="INTEGER" />
+    <result column="bod_unit_cost" property="bodUnitCost" jdbcType="DECIMAL" />
+    <result column="bod_total_cost" property="bodTotalCost" jdbcType="DECIMAL" />
+    <result column="iv_amount" property="ivAmount" jdbcType="INTEGER" />
+    <result column="iv_unit_cost" property="ivUnitCost" jdbcType="DECIMAL" />
+    <result column="iv_total_cost" property="ivTotalCost" jdbcType="DECIMAL" />
+    <result column="scr_date" property="scrDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="SalesCostReport_Column_List" >
+    scr_id, sh_id, goods_id, goods_name, goods_unit, goods_type, goods_color, scd_amount, 
+    scd_unit_cost, scd_total_cost, open_iv_amount, open_unit_cost, open_total_cost, bod_amount, 
+    bod_unit_cost, bod_total_cost, iv_amount, iv_unit_cost, iv_total_cost, scr_date
+  </sql>
+  <insert id="insertList">
+    insert into sales_cost_report (scr_id, sh_id, goods_id,
+    goods_name, goods_unit, goods_type,
+    goods_color, scd_amount, scd_unit_cost,
+    scd_total_cost, open_iv_amount, open_unit_cost,
+    open_total_cost, bod_amount, bod_unit_cost,
+    bod_total_cost, iv_amount, iv_unit_cost,
+    iv_total_cost, scr_date)
+    values
+    <foreach collection="list" item="item" separator=",">
+    (
+    #{item.scrId,jdbcType=VARCHAR}, #{item.shId,jdbcType=VARCHAR}, #{item.goodsId,jdbcType=VARCHAR},
+    #{item.goodsName,jdbcType=VARCHAR}, #{item.goodsUnit,jdbcType=VARCHAR}, #{item.goodsType,jdbcType=VARCHAR},
+    #{item.goodsColor,jdbcType=VARCHAR}, #{item.scdAmount,jdbcType=INTEGER}, #{item.scdUnitCost,jdbcType=DECIMAL},
+    #{item.scdTotalCost,jdbcType=DECIMAL}, #{item.openIvAmount,jdbcType=INTEGER}, #{item.openUnitCost,jdbcType=DECIMAL},
+    #{item.openTotalCost,jdbcType=DECIMAL}, #{item.bodAmount,jdbcType=INTEGER}, #{item.bodUnitCost,jdbcType=DECIMAL},
+    #{item.bodTotalCost,jdbcType=DECIMAL}, #{item.ivAmount,jdbcType=INTEGER}, #{item.ivUnitCost,jdbcType=DECIMAL},
+    #{item.ivTotalCost,jdbcType=DECIMAL}, #{item.scrDate,jdbcType=DATE}
+    )
+    </foreach>
+  </insert>
+  <select id="generateReport" parameterType="PageData" resultMap="SalesCostReportResultMap">
+  SELECT T1.sh_id,T1.goods_id, T1.goods_name, T1.goods_color,T1.goods_type,T1.goods_unit,
+  T3.scd_amount,
+  T4.open_iv_amount, T4.open_total_cost,
+  T2.bod_amount ,T2.bod_total_cost,
+  T1.iv_amount
+  FROM
+  (SELECT inventory.sh_id, inventory.goods_id, goods_name, goods_color, goods_type, goods_unit, SUM(inventory.iv_amount) as iv_amount FROM inventory  where bo_date &lt;= #{endDate} GROUP BY inventory.goods_id) T1
+  LEFT JOIN
+  (SELECT inventory.goods_id,SUM(inventory.iv_amount) as bod_amount, SUM(inventory.iv_total_cost) as bod_total_cost  FROM inventory where iv_type="bo" and bo_date between #{startDate} and #{endDate} GROUP BY inventory.goods_id) T2
+  ON T1.goods_id=T2.goods_id
+  LEFT JOIN
+  (SELECT inventory.goods_id,SUM(inventory.iv_amount) as scd_amount FROM inventory where iv_type="sc" and bo_date between #{startDate} and #{endDate} GROUP BY inventory.goods_id) T3
+  ON T1.goods_id=T3.goods_id
+  LEFT JOIN
+  (SELECT sales_cost_report.goods_id,SUM(sales_cost_report.iv_amount) as open_iv_amount, SUM(sales_cost_report.iv_total_cost) as open_total_cost FROM sales_cost_report where scr_date between #{lastMonthStartDate} and #{lastMonthEndDate} GROUP BY sales_cost_report.goods_id) T4
+  ON T1.goods_id=T4.goods_id
+
+</select>
+
+  <select id="generateReportCount" parameterType="PageData" resultType="Integer">
+    SELECT count(T1.goods_id)
+    FROM
+    (SELECT inventory.sh_id, inventory.goods_id, goods_name, goods_color, goods_type, goods_unit, SUM(inventory.iv_amount) as iv_amount FROM inventory where bo_date &lt;= #{endDate} GROUP BY inventory.goods_id) T1
+    LEFT JOIN
+    (SELECT inventory.goods_id,SUM(inventory.iv_amount) as bod_amount, SUM(inventory.iv_total_cost) as bod_total_cost  FROM inventory where iv_type="bo" and bo_date between #{startDate} and #{endDate} GROUP BY inventory.goods_id) T2
+    ON T1.goods_id=T2.goods_id
+    LEFT JOIN
+    (SELECT inventory.goods_id,SUM(inventory.iv_amount) as scd_amount FROM inventory where iv_type="sc" and bo_date between #{startDate} and #{endDate} GROUP BY inventory.goods_id) T3
+    ON T1.goods_id=T3.goods_id
+    LEFT JOIN
+    (SELECT sales_cost_report.goods_id,SUM(sales_cost_report.iv_amount) as open_iv_amount, SUM(sales_cost_report.iv_total_cost) as open_total_cost FROM sales_cost_report where scr_date between #{lastMonthStartDate} and #{lastMonthEndDate} GROUP BY sales_cost_report.goods_id) T4
+    ON T1.goods_id=T4.goods_id;
+  </select>
+  <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sales_cost_report
+    where scr_id = #{scrId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sales_cost_report
+    where scr_id = #{scrId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.icenotu.entity.SalesCostReport" >
+    insert into sales_cost_report (scr_id, sh_id, goods_id, 
+      goods_name, goods_unit, goods_type, 
+      goods_color, scd_amount, scd_unit_cost, 
+      scd_total_cost, open_iv_amount, open_unit_cost, 
+      open_total_cost, bod_amount, bod_unit_cost, 
+      bod_total_cost, iv_amount, iv_unit_cost, 
+      iv_total_cost, scr_date)
+    values (#{scrId,jdbcType=VARCHAR}, #{shId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{goodsUnit,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
+      #{goodsColor,jdbcType=VARCHAR}, #{scdAmount,jdbcType=INTEGER}, #{scdUnitCost,jdbcType=DECIMAL}, 
+      #{scdTotalCost,jdbcType=DECIMAL}, #{openIvAmount,jdbcType=INTEGER}, #{openUnitCost,jdbcType=DECIMAL}, 
+      #{openTotalCost,jdbcType=DECIMAL}, #{bodAmount,jdbcType=INTEGER}, #{bodUnitCost,jdbcType=DECIMAL}, 
+      #{bodTotalCost,jdbcType=DECIMAL}, #{ivAmount,jdbcType=INTEGER}, #{ivUnitCost,jdbcType=DECIMAL}, 
+      #{ivTotalCost,jdbcType=DECIMAL}, #{scrDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.icenotu.entity.SalesCostReport" >
+    insert into sales_cost_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scrId != null" >
+        scr_id,
+      </if>
+      <if test="shId != null" >
+        sh_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsUnit != null" >
+        goods_unit,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="goodsColor != null" >
+        goods_color,
+      </if>
+      <if test="scdAmount != null" >
+        scd_amount,
+      </if>
+      <if test="scdUnitCost != null" >
+        scd_unit_cost,
+      </if>
+      <if test="scdTotalCost != null" >
+        scd_total_cost,
+      </if>
+      <if test="openIvAmount != null" >
+        open_iv_amount,
+      </if>
+      <if test="openUnitCost != null" >
+        open_unit_cost,
+      </if>
+      <if test="openTotalCost != null" >
+        open_total_cost,
+      </if>
+      <if test="bodAmount != null" >
+        bod_amount,
+      </if>
+      <if test="bodUnitCost != null" >
+        bod_unit_cost,
+      </if>
+      <if test="bodTotalCost != null" >
+        bod_total_cost,
+      </if>
+      <if test="ivAmount != null" >
+        iv_amount,
+      </if>
+      <if test="ivUnitCost != null" >
+        iv_unit_cost,
+      </if>
+      <if test="ivTotalCost != null" >
+        iv_total_cost,
+      </if>
+      <if test="scrDate != null" >
+        scr_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scrId != null" >
+        #{scrId,jdbcType=VARCHAR},
+      </if>
+      <if test="shId != null" >
+        #{shId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnit != null" >
+        #{goodsUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsColor != null" >
+        #{goodsColor,jdbcType=VARCHAR},
+      </if>
+      <if test="scdAmount != null" >
+        #{scdAmount,jdbcType=INTEGER},
+      </if>
+      <if test="scdUnitCost != null" >
+        #{scdUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="scdTotalCost != null" >
+        #{scdTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="openIvAmount != null" >
+        #{openIvAmount,jdbcType=INTEGER},
+      </if>
+      <if test="openUnitCost != null" >
+        #{openUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="openTotalCost != null" >
+        #{openTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="bodAmount != null" >
+        #{bodAmount,jdbcType=INTEGER},
+      </if>
+      <if test="bodUnitCost != null" >
+        #{bodUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="bodTotalCost != null" >
+        #{bodTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="ivAmount != null" >
+        #{ivAmount,jdbcType=INTEGER},
+      </if>
+      <if test="ivUnitCost != null" >
+        #{ivUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="ivTotalCost != null" >
+        #{ivTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="scrDate != null" >
+        #{scrDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.icenotu.entity.SalesCostReport" >
+    update sales_cost_report
+    <set >
+      <if test="shId != null" >
+        sh_id = #{shId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnit != null" >
+        goods_unit = #{goodsUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsColor != null" >
+        goods_color = #{goodsColor,jdbcType=VARCHAR},
+      </if>
+      <if test="scdAmount != null" >
+        scd_amount = #{scdAmount,jdbcType=INTEGER},
+      </if>
+      <if test="scdUnitCost != null" >
+        scd_unit_cost = #{scdUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="scdTotalCost != null" >
+        scd_total_cost = #{scdTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="openIvAmount != null" >
+        open_iv_amount = #{openIvAmount,jdbcType=INTEGER},
+      </if>
+      <if test="openUnitCost != null" >
+        open_unit_cost = #{openUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="openTotalCost != null" >
+        open_total_cost = #{openTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="bodAmount != null" >
+        bod_amount = #{bodAmount,jdbcType=INTEGER},
+      </if>
+      <if test="bodUnitCost != null" >
+        bod_unit_cost = #{bodUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="bodTotalCost != null" >
+        bod_total_cost = #{bodTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="ivAmount != null" >
+        iv_amount = #{ivAmount,jdbcType=INTEGER},
+      </if>
+      <if test="ivUnitCost != null" >
+        iv_unit_cost = #{ivUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="ivTotalCost != null" >
+        iv_total_cost = #{ivTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="scrDate != null" >
+        scr_date = #{scrDate,jdbcType=DATE},
+      </if>
+    </set>
+    where scr_id = #{scrId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.icenotu.entity.SalesCostReport" >
+    update sales_cost_report
+    set sh_id = #{shId,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_unit = #{goodsUnit,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_color = #{goodsColor,jdbcType=VARCHAR},
+      scd_amount = #{scdAmount,jdbcType=INTEGER},
+      scd_unit_cost = #{scdUnitCost,jdbcType=DECIMAL},
+      scd_total_cost = #{scdTotalCost,jdbcType=DECIMAL},
+      open_iv_amount = #{openIvAmount,jdbcType=INTEGER},
+      open_unit_cost = #{openUnitCost,jdbcType=DECIMAL},
+      open_total_cost = #{openTotalCost,jdbcType=DECIMAL},
+      bod_amount = #{bodAmount,jdbcType=INTEGER},
+      bod_unit_cost = #{bodUnitCost,jdbcType=DECIMAL},
+      bod_total_cost = #{bodTotalCost,jdbcType=DECIMAL},
+      iv_amount = #{ivAmount,jdbcType=INTEGER},
+      iv_unit_cost = #{ivUnitCost,jdbcType=DECIMAL},
+      iv_total_cost = #{ivTotalCost,jdbcType=DECIMAL},
+      scr_date = #{scrDate,jdbcType=DATE}
+    where scr_id = #{scrId,jdbcType=VARCHAR}
+  </update>-->
+</mapper>

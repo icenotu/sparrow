@@ -18,7 +18,25 @@ public class PageData<T> implements Serializable{
     private String paramType;
     private Date startDate;
     private Date endDate;
+    private Date lastMonthStartDate;
+    private Date lastMonthEndDate;
     private String orderId;
+
+    public Date getLastMonthStartDate() {
+        return lastMonthStartDate;
+    }
+
+    public void setLastMonthStartDate(Date lastMonthStartDate) {
+        this.lastMonthStartDate = lastMonthStartDate;
+    }
+
+    public Date getLastMonthEndDate() {
+        return lastMonthEndDate;
+    }
+
+    public void setLastMonthEndDate(Date lastMonthEndDate) {
+        this.lastMonthEndDate = lastMonthEndDate;
+    }
 
     public String getParamType() {
         return paramType;
@@ -136,6 +154,8 @@ public class PageData<T> implements Serializable{
                 ", paramType='" + paramType + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", lastMonthStartDate=" + lastMonthStartDate +
+                ", lastMonthEndDate=" + lastMonthEndDate +
                 ", orderId='" + orderId + '\'' +
                 ", data=" + data +
                 '}';

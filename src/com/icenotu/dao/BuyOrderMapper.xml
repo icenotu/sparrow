@@ -23,7 +23,7 @@
     bo_date, bo_payable, bo_paid,
     bo_arrears, bo_original, bo_remark,
     bo_attn, bo_operator)
-    values (#{orderId,jdbcType=VARCHAR}, #{supId,jdbcType=INTEGER}, #{shId,jdbcType=VARCHAR},
+    values (#{boId,jdbcType=VARCHAR}, #{supId,jdbcType=INTEGER}, #{shId,jdbcType=VARCHAR},
     #{boDate,jdbcType=DATE}, #{boPayable,jdbcType=DECIMAL}, #{boPaid,jdbcType=DECIMAL},
     #{boArrears,jdbcType=DECIMAL}, #{boOriginal,jdbcType=VARCHAR}, #{boRemark,jdbcType=VARCHAR},
     #{boAttn,jdbcType=VARCHAR}, #{boOperator,jdbcType=INTEGER})
