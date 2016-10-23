@@ -40,7 +40,7 @@
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-home"></i> 主页 <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li class="current-page"><a href="${proPath}/base/goURL/index/index.form">公司简介</a></li>
+                            <li class="current-page"><a href="${proPath}/base/goURL/chart/chartjs2.form">统计图表</a></li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-gear"></i> 系统设置 <span class="fa fa-chevron-down"></span></a>
@@ -81,6 +81,7 @@
                     <li><a><i class="fa fa-edit"></i> 报表模块 <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="${proPath}/base/goURL/report/salesCostReport.form">销售成本表</a></li>
+                            <li><a href="${proPath}/base/goURL/report/salesProfitReport.form">销售利润表</a></li>
                         </ul>
                     </li>
                 </ul>

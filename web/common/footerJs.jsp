@@ -62,6 +62,8 @@
 <script src="${proPath}/vendors/starrr/dist/starrr.js"></script>
 <!-- jquery form -->
 <script src="${proPath}/vendors/jquery-form/jquery.form.js"></script>
+<!-- Chart.js -->
+<script src="${proPath}/vendors/Chart.js/dist/Chart.min.js"></script>
 
 <!-- Custom Theme Scripts -->
 <script src="${proPath}/build/js/custom.min.js"></script>

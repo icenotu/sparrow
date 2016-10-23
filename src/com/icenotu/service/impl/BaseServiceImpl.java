@@ -55,6 +55,9 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     @Autowired
     protected SalesCostReportMapper salesCostReportMapper   ;
 
+    @Autowired
+    protected SalesProfitReportMapper salesProfitReportMapper    ;
+
 
     @PostConstruct//在构造方法后，初化前执行
     private void initBaseMapper() throws Exception{

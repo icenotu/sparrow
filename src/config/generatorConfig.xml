@@ -60,8 +60,10 @@
         <table tableName="sales_contract" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false" domainObjectName="SalesContract"/>
         <table tableName="sales_contract_detail" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false" domainObjectName="SalesContractDetail"/>-->
+               enableUpdateByExample="false" domainObjectName="SalesContractDetail"/>
         <table tableName="sales_cost_report" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false" domainObjectName="SalesCostReport"/>
+               enableUpdateByExample="false" domainObjectName="SalesCostReport"/> -->
+        <table tableName="sales_profit_report" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false" domainObjectName="SalesProfitReport"/>
     </context>
 </generatorConfiguration>

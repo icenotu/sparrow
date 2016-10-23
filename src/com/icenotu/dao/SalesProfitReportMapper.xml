@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icenotu.dao.SalesProfitReportMapper" >
+  <resultMap id="SalesProfitReportResultMap" type="com.icenotu.entity.SalesProfitReport" >
+    <id column="spr_id" property="sprId" jdbcType="VARCHAR" />
+    <result column="sh_id" property="shId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+    <result column="goods_color" property="goodsColor" jdbcType="VARCHAR" />
+    <result column="scd_amount" property="scdAmount" jdbcType="INTEGER" />
+    <result column="scd_unit_price" property="scdUnitPrice" jdbcType="DECIMAL" />
+    <result column="scd_total_price" property="scdTotalPrice" jdbcType="DECIMAL" />
+    <result column="scd_unit_cost" property="scdUnitCost" jdbcType="DECIMAL" />
+    <result column="scd_total_cost" property="scdTotalCost" jdbcType="DECIMAL" />
+    <result column="spr_unit_profit" property="sprUnitProfit" jdbcType="DECIMAL" />
+    <result column="spr_total_profit" property="sprTotalProfit" jdbcType="DECIMAL" />
+    <result column="spr_date" property="sprDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="SalesProfitReport_Column_List" >
+    spr_id, sh_id, goods_id, goods_name, goods_unit, goods_type, goods_color, scd_amount, 
+    scd_unit_price, scd_total_price, scd_unit_cost, scd_total_cost, spr_unit_profit, 
+    spr_total_profit, spr_date
+  </sql>
+
+  <insert id="insertList" parameterType="com.icenotu.entity.SalesProfitReport" >
+    insert into sales_profit_report (spr_id, sh_id, goods_id,
+    goods_name, goods_unit, goods_type,
+    goods_color, scd_amount, scd_unit_price,
+    scd_total_price, scd_unit_cost, scd_total_cost,
+    spr_unit_profit, spr_total_profit, spr_date
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+    (#{item.sprId,jdbcType=VARCHAR}, #{item.shId,jdbcType=VARCHAR}, #{item.goodsId,jdbcType=VARCHAR},
+    #{item.goodsName,jdbcType=VARCHAR}, #{item.goodsUnit,jdbcType=VARCHAR}, #{item.goodsType,jdbcType=VARCHAR},
+    #{item.goodsColor,jdbcType=VARCHAR}, #{item.scdAmount,jdbcType=INTEGER}, #{item.scdUnitPrice,jdbcType=DECIMAL},
+    #{item.scdTotalPrice,jdbcType=DECIMAL}, #{item.scdUnitCost,jdbcType=DECIMAL}, #{item.scdTotalCost,jdbcType=DECIMAL},
+    #{item.sprUnitProfit,jdbcType=DECIMAL}, #{item.sprTotalProfit,jdbcType=DECIMAL}, #{item.sprDate,jdbcType=DATE}
+    )
+    </foreach>
+  </insert>
+  <select id="generateReport" parameterType="PageData" resultMap="SalesProfitReportResultMap">
+    SELECT T4.sh_id,T4.goods_id,T4.goods_name,T4.goods_unit,T4.goods_color,T4.goods_type,
+      T4.scd_amount,ROUND((T4.scd_total_cost/T4.scd_amount),2) AS scd_unit_cost,T4.scd_total_cost,
+                    ROUND((T3.scd_total_price/T3.scd_amount),2) AS scd_unit_price,T3.scd_total_price,
+                    ROUND(((T3.scd_total_price-T4.scd_total_cost)/T4.scd_amount),2) AS spr_unit_profit,(T3.scd_total_price-T4.scd_total_cost) AS spr_total_profit
+    FROM
+      (SELECT T2.goods_id,SUM(T2.scd_amount) AS scd_amount, SUM(T2.scd_total_price) AS scd_total_price
+       FROM
+         (SELECT sc_id FROM sales_contract WHERE sc_status=1 AND sc_date BETWEEN #{startDate} AND #{endDate}) T1
+         LEFT JOIN
+         (SELECT sc_id, goods_id, scd_amount,scd_total_price FROM sales_contract_detail ) T2
+           ON T1.sc_id = T2.sc_id
+       GROUP BY goods_id) T3
+      INNER JOIN
+      (SELECT sh_id,goods_id,goods_name,goods_unit,goods_color,goods_type,scd_amount,scd_total_cost FROM sales_cost_report WHERE scr_date BETWEEN  #{startDate} AND #{endDate}) T4
+        ON T3.goods_id = T4.goods_id;
+
+  </select>
+
+  <select id="generateReportCount" parameterType="PageData" resultType="Integer">
+    SELECT COUNT(T4.goods_id)
+    FROM
+      (SELECT T2.goods_id,SUM(T2.scd_amount) AS scd_amount, SUM(T2.scd_total_price) AS scd_total_price
+       FROM
+         (SELECT sc_id FROM sales_contract WHERE sc_status=1 AND sc_date BETWEEN  #{startDate} AND #{endDate}) T1
+         LEFT JOIN
+         (SELECT sc_id, goods_id, scd_amount,scd_total_price FROM sales_contract_detail ) T2
+           ON T1.sc_id = T2.sc_id
+       GROUP BY goods_id) T3
+      INNER JOIN
+      (SELECT sh_id,goods_id,goods_name,goods_unit,goods_color,goods_type,scd_amount,scd_total_cost FROM sales_cost_report WHERE scr_date BETWEEN  #{startDate} AND #{endDate}) T4
+        ON T3.goods_id = T4.goods_id;
+  </select>
+
+  <select id="selectProfitTotal" parameterType="map" resultType="map">
+    SELECT goods_name,spr_total_profit FROM sales_profit_report WHERE spr_date BETWEEN #{startDate} AND #{endDate};
+  </select>
+ <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sales_profit_report
+    where spr_id = #{sprId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sales_profit_report
+    where spr_id = #{sprId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.icenotu.entity.SalesProfitReport" >
+    insert into sales_profit_report (spr_id, sh_id, goods_id, 
+      goods_name, goods_unit, goods_type, 
+      goods_color, scd_amount, scd_unit_price, 
+      scd_total_price, scd_unit_cost, scd_total_cost, 
+      spr_unit_profit, spr_total_profit, spr_date
+      )
+    values (#{sprId,jdbcType=VARCHAR}, #{shId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, 
+      #{goodsName,jdbcType=VARCHAR}, #{goodsUnit,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
+      #{goodsColor,jdbcType=VARCHAR}, #{scdAmount,jdbcType=INTEGER}, #{scdUnitPrice,jdbcType=DECIMAL}, 
+      #{scdTotalPrice,jdbcType=DECIMAL}, #{scdUnitCost,jdbcType=DECIMAL}, #{scdTotalCost,jdbcType=DECIMAL}, 
+      #{sprUnitProfit,jdbcType=DECIMAL}, #{sprTotalProfit,jdbcType=DECIMAL}, #{sprDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.icenotu.entity.SalesProfitReport" >
+    insert into sales_profit_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sprId != null" >
+        spr_id,
+      </if>
+      <if test="shId != null" >
+        sh_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsUnit != null" >
+        goods_unit,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="goodsColor != null" >
+        goods_color,
+      </if>
+      <if test="scdAmount != null" >
+        scd_amount,
+      </if>
+      <if test="scdUnitPrice != null" >
+        scd_unit_price,
+      </if>
+      <if test="scdTotalPrice != null" >
+        scd_total_price,
+      </if>
+      <if test="scdUnitCost != null" >
+        scd_unit_cost,
+      </if>
+      <if test="scdTotalCost != null" >
+        scd_total_cost,
+      </if>
+      <if test="sprUnitProfit != null" >
+        spr_unit_profit,
+      </if>
+      <if test="sprTotalProfit != null" >
+        spr_total_profit,
+      </if>
+      <if test="sprDate != null" >
+        spr_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sprId != null" >
+        #{sprId,jdbcType=VARCHAR},
+      </if>
+      <if test="shId != null" >
+        #{shId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnit != null" >
+        #{goodsUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsColor != null" >
+        #{goodsColor,jdbcType=VARCHAR},
+      </if>
+      <if test="scdAmount != null" >
+        #{scdAmount,jdbcType=INTEGER},
+      </if>
+      <if test="scdUnitPrice != null" >
+        #{scdUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="scdTotalPrice != null" >
+        #{scdTotalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="scdUnitCost != null" >
+        #{scdUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="scdTotalCost != null" >
+        #{scdTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sprUnitProfit != null" >
+        #{sprUnitProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="sprTotalProfit != null" >
+        #{sprTotalProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="sprDate != null" >
+        #{sprDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.icenotu.entity.SalesProfitReport" >
+    update sales_profit_report
+    <set >
+      <if test="shId != null" >
+        sh_id = #{shId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnit != null" >
+        goods_unit = #{goodsUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsColor != null" >
+        goods_color = #{goodsColor,jdbcType=VARCHAR},
+      </if>
+      <if test="scdAmount != null" >
+        scd_amount = #{scdAmount,jdbcType=INTEGER},
+      </if>
+      <if test="scdUnitPrice != null" >
+        scd_unit_price = #{scdUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="scdTotalPrice != null" >
+        scd_total_price = #{scdTotalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="scdUnitCost != null" >
+        scd_unit_cost = #{scdUnitCost,jdbcType=DECIMAL},
+      </if>
+      <if test="scdTotalCost != null" >
+        scd_total_cost = #{scdTotalCost,jdbcType=DECIMAL},
+      </if>
+      <if test="sprUnitProfit != null" >
+        spr_unit_profit = #{sprUnitProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="sprTotalProfit != null" >
+        spr_total_profit = #{sprTotalProfit,jdbcType=DECIMAL},
+      </if>
+      <if test="sprDate != null" >
+        spr_date = #{sprDate,jdbcType=DATE},
+      </if>
+    </set>
+    where spr_id = #{sprId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.icenotu.entity.SalesProfitReport" >
+    update sales_profit_report
+    set sh_id = #{shId,jdbcType=VARCHAR},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_unit = #{goodsUnit,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_color = #{goodsColor,jdbcType=VARCHAR},
+      scd_amount = #{scdAmount,jdbcType=INTEGER},
+      scd_unit_price = #{scdUnitPrice,jdbcType=DECIMAL},
+      scd_total_price = #{scdTotalPrice,jdbcType=DECIMAL},
+      scd_unit_cost = #{scdUnitCost,jdbcType=DECIMAL},
+      scd_total_cost = #{scdTotalCost,jdbcType=DECIMAL},
+      spr_unit_profit = #{sprUnitProfit,jdbcType=DECIMAL},
+      spr_total_profit = #{sprTotalProfit,jdbcType=DECIMAL},
+      spr_date = #{sprDate,jdbcType=DATE}
+    where spr_id = #{sprId,jdbcType=VARCHAR}
+  </update>-->
+</mapper>
