@@ -29,7 +29,6 @@ public class ChartAction {
         System.out.println("startDate---"+startDate);
         System.out.println("endDate---"+endDate);
         List<Map<String, Object>> maps = salesProfitReportService.selectProfitTotal(paramMap);
-        System.out.println(maps);
         return maps;
     }
 }

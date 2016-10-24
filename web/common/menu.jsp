@@ -22,11 +22,11 @@
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="${proPath}/images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="${proPath}/images/picture.jpg" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2>icenotu</h2>
             </div>
         </div>
         <!-- /menu profile quick info -->
@@ -40,7 +40,7 @@
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-home"></i> 主页 <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li class="current-page"><a href="${proPath}/base/goURL/chart/chartjs2.form">统计图表</a></li>
+                            <li class="current-page"><a href="${proPath}/base/goURL/index/index.form">公司简介</a></li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-gear"></i> 系统设置 <span class="fa fa-chevron-down"></span></a>
@@ -82,6 +82,7 @@
                         <ul class="nav child_menu">
                             <li><a href="${proPath}/base/goURL/report/salesCostReport.form">销售成本表</a></li>
                             <li><a href="${proPath}/base/goURL/report/salesProfitReport.form">销售利润表</a></li>
+                            <li class="current-page"><a href="${proPath}/base/goURL/chart/chartjs2.form">统计图表</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -102,23 +103,23 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="${proPath}/images/img.jpg" alt="">John Doe
+                        <img src="${proPath}/images/picture.jpg" alt="">icenotu
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="javascript:;"> Profile</a></li>
+                        <li><a href="javascript:;"> 资料</a></li>
                         <li>
                             <a href="javascript:;">
                                 <span class="badge bg-red pull-right">50%</span>
-                                <span>Settings</span>
+                                <span>设置</span>
                             </a>
                         </li>
-                        <li><a href="javascript:;">Help</a></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                        <li><a href="javascript:;">帮助</a></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> 登出</a></li>
                     </ul>
                 </li>
 
-                <li role="presentation" class="dropdown">
+                <%--<li role="presentation" class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-envelope-o"></i>
                         <span class="badge bg-green">6</span>
@@ -181,7 +182,7 @@
                             </div>
                         </li>
                     </ul>
-                </li>
+                </li>--%>
             </ul>
         </nav>
     </div>

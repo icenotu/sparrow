@@ -10,6 +10,36 @@ $(document).ready(function() {
     }, function(start, end, label) {
         console.log(start.toISOString(), end.toISOString(), label);
     });
+    $('#endDate1').daterangepicker({
+        singleDatePicker: true,
+        calender_style: "picker_4"
+    }, function(start, end, label) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    });
+    $('#endDate2').daterangepicker({
+        singleDatePicker: true,
+        calender_style: "picker_4"
+    }, function(start, end, label) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    });
+    $('#endDate3').daterangepicker({
+        singleDatePicker: true,
+        calender_style: "picker_4"
+    }, function(start, end, label) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    });
+    $('#endDate4').daterangepicker({
+        singleDatePicker: true,
+        calender_style: "picker_4"
+    }, function(start, end, label) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    });
+    $('#endDate5').daterangepicker({
+        singleDatePicker: true,
+        calender_style: "picker_4"
+    }, function(start, end, label) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    });
 });
 
 <!-- /bootstrap-daterangepicker -->

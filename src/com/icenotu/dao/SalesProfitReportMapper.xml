@@ -76,7 +76,7 @@
   </select>
 
   <select id="selectProfitTotal" parameterType="map" resultType="map">
-    SELECT goods_name,spr_total_profit FROM sales_profit_report WHERE spr_date BETWEEN #{startDate} AND #{endDate};
+    SELECT goods_name,scd_total_price,scd_total_cost,spr_total_profit FROM sales_profit_report WHERE spr_date BETWEEN #{startDate} AND #{endDate};
   </select>
  <!-- <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

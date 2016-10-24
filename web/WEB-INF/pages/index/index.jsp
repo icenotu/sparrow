@@ -151,7 +151,7 @@
               <%@include file="/common/menu.jsp"%>
         <!-- page content -->
         <div class="right_col" role="main">
-          <h1>欢迎使用Icenotu进销存管理系统</h1>
+          <h1 align="center">欢迎使用Icenotu进销存管理系统</h1>
         </div>
         <!-- /page content -->
         <%@include file="/common/footer.jsp"%>

@@ -15,19 +15,10 @@
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Chart Js <small>Some examples to get you started</small></h3>
+                <h3> 统计图表 <small>图表示例</small></h3>
               </div>
 
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
-              </div>
+
             </div>
 
             <div class="clearfix"></div>
@@ -57,6 +48,21 @@
                   <div class="x_content">
                     <canvas id="lineChart"></canvas>
                   </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="endDate">截止日期
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="endDate1" name="endDate1" class="date-picker form-control col-md-7 col-xs-12" type="text">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button type="reset" class="btn btn-primary">Cancel</button>
+                        <button id="ivSearch1" type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -81,7 +87,11 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
+
                   <div class="x_content">
+                    <canvas id="mybarChart"></canvas>
+                  </div>
+                  <div class="row">
                     <div class="form-group">
                       <label class="control-label col-md-3 col-sm-3 col-xs-12" for="endDate">截止日期
                       </label>
@@ -95,7 +105,6 @@
                         <button id="ivSearch" type="submit" class="btn btn-success">Submit</button>
                       </div>
                     </div>
-                    <canvas id="mybarChart"></canvas>
                   </div>
                 </div>
               </div>
@@ -124,6 +133,21 @@
                   <div class="x_content">
                     <canvas id="canvasDoughnut"></canvas>
                   </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="endDate">截止日期
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="endDate2" name="endDate2" class="date-picker form-control col-md-7 col-xs-12" type="text">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button type="reset" class="btn btn-primary">Cancel</button>
+                        <button id="ivSearch2" type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -150,6 +174,21 @@
                   </div>
                   <div class="x_content">
                     <canvas id="canvasRadar"></canvas>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="endDate">截止日期
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="endDate3" name="endDate3" class="date-picker form-control col-md-7 col-xs-12" type="text">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button type="reset" class="btn btn-primary">Cancel</button>
+                        <button id="ivSearch3" type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -178,6 +217,21 @@
                   <div class="x_content">
                     <canvas id="polarArea"></canvas>
                   </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="endDate">截止日期
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="endDate4" name="endDate4" class="date-picker form-control col-md-7 col-xs-12" type="text">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button type="reset" class="btn btn-primary">Cancel</button>
+                        <button id="ivSearch4" type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -204,6 +258,21 @@
                   </div>
                   <div class="x_content">
                     <canvas id="pieChart"></canvas>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <label class="control-label col-md-3 col-sm-3 col-xs-12" for="endDate">截止日期
+                      </label>
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="endDate5" name="endDate5" class="date-picker form-control col-md-7 col-xs-12" type="text">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                        <button type="reset" class="btn btn-primary">Cancel</button>
+                        <button id="ivSearch5" type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
