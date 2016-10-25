@@ -48,6 +48,11 @@
                     <p class="text-muted font-13 m-b-30">
                       下表显示了公司商品颜色信息
                     </p>
+                    <div class="pull-left">
+                      <button   class="btn btn-danger btn-sm" id="deleteGoodsColor">批量删除</button>
+                      <button   class="btn btn-success btn-sm "  id="addGoodsColorBtn">新 增</button>
+                      <button   class="btn btn-warning btn-sm "  id="editGoodsColorBtn">修 改</button>
+                    </div>
                     <div class="btn pull-right">
                       <input type="text" id="searchColor1">
                       <input type="button" id="searchColor2" value="查询">

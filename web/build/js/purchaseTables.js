@@ -289,7 +289,7 @@ $(function () {
  */
 $(document).delegate('#addPurchaseGoodsBtn','click',function() {
     
-    $("#myModal-add-info").modal('show').children(".modal-dialog").css({
+    $("#myModal-add-info").modal('show')/*.children(".modal-dialog").css({
         // width:"75%",
         'margin-right':5,
         // 'width':1200
@@ -299,6 +299,6 @@ $(document).delegate('#addPurchaseGoodsBtn','click',function() {
         // 'margin-left': function () {
         //     return ($(this).parents(".right_col").width());
         // }
-    });
+    });*/
 
 });

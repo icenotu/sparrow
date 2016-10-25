@@ -103,7 +103,8 @@ $(function() {
         "columnDefs": [
             { "orderable": false, "targets": "_all" },
             { "visible": false, "targets": [1] },
-            { "defaultContent":"", "targets":"_all"}
+            { "defaultContent":"", "targets":"_all"},
+            {"className": "none","targets":[6,7,8,9,10,11,12]}
         ],
         initComplete:initComplete,
         'drawCallback': function( settings ) {

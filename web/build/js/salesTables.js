@@ -288,16 +288,16 @@ $(function () {
  */
 $(document).delegate('#addPurchaseGoodsBtn','click',function() {
     
-    $("#myModal-add-info").modal('show').children(".modal-dialog").css({
-        // width:"75%",
-        'margin-right':5,
-        // 'width':1200
-        width: function () {
-            return ($(this).parents(".right_col").width());
-        }
-        // 'margin-left': function () {
-        //     return ($(this).parents(".right_col").width());
-        // }
-    });
+    $("#myModal-add-info").modal('show')/*.children(".modal-dialog").css({
+     // width:"75%",
+     'margin-right':5,
+     // 'width':1200
+     width: function () {
+     return ($(this).parents(".right_col").width());
+     }
+     // 'margin-left': function () {
+     //     return ($(this).parents(".right_col").width());
+     // }
+    });*/
 
 });

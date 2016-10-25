@@ -100,7 +100,8 @@ $(function() {
         ],
         "columnDefs": [
             { "orderable": false, "targets": "_all" },
-            { "visible": false, "targets": [1] }
+            { "visible": false, "targets": [1] },
+            {"className": "none","targets":[6,7,8]}
         ],
         'drawCallback': function( settings ) {
             $('#checkAll').checked = false;//取消全选状态

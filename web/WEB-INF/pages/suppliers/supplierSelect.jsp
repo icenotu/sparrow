@@ -9,8 +9,6 @@
       <div class="main_container">
 
         <!-- page content -->
-        <div class="right_col" role="main">
-          <div class="">
             <div class="page-title">
               <div class="title_center">
                 <h3 class="page_title" style="text-align: center">请选择供应商</h3>
@@ -76,8 +74,6 @@
             </div>
             </div>
           </div>
-        </div>
-      </div>
     </div>
 
     <%@include file="/common/footerJs.jsp"%>

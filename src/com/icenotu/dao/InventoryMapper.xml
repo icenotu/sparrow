@@ -64,6 +64,54 @@
   </select>
 
   <select id="selectWithCondition" parameterType="PageData" resultMap="InventoryResultMap">
+
+    select T1.goods_id,T1.iv_amount,T1.iv_unit_cost,T1.iv_total_cost,T2.goods_name,T2.goods_unit,T2.goods_color from
+    (SELECT goods_id,
+    sum(iv_amount) as iv_amount,
+    sum(iv_total_cost) as iv_total_cost,
+    cast((sum(iv_total_cost)/sum(iv_amount)) as decimal(38,2)) as iv_unit_cost
+    FROM scm.inventory
+    where
+    bo_date &lt;= #{endDate}
+    GROUP BY goods_id) T1
+    left join
+    (select goods_id,goods_name,goods_unit,goods_color from goods) T2
+    on T1.goods_id = T2.goods_id
+    <where>
+      <if test="keyword!='%%'">
+
+        goods_name  LIKE #{keyword}
+        OR goods_unit  LIKE #{keyword}
+        OR goods_color  LIKE #{keyword}
+        OR iv_amount LIKE #{keyword}
+        OR iv_unit_cost LIKE #{keyword}
+        OR iv_total_cost LIKE #{keyword}
+
+      </if>
+    </where>
+    limit #{start},#{length};
+  </select>
+
+  <select id="selectCountWithCondition" parameterType="PageData" resultType="Integer">
+    SELECT count(1) FROM
+    (SELECT goods_id FROM inventory
+    <where>
+      bo_date &lt;= #{endDate}
+      <if test="keyword!='%%'">
+        AND(
+        goods_name  LIKE #{keyword}
+        OR goods_unit  LIKE #{keyword}
+        OR goods_color  LIKE #{keyword}
+        OR iv_amount LIKE #{keyword}
+        OR iv_unit_cost LIKE #{keyword}
+        OR iv_total_cost LIKE #{keyword}
+        )
+      </if>
+    </where>
+    GROUP BY goods_id) AS iv
+  </select>
+
+  <!--<select id="selectWithCondition" parameterType="PageData" resultMap="InventoryResultMap">
     SELECT goods_id,goods_name,goods_unit,goods_color,bo_date,
     sum(iv_amount) as iv_amount,
     sum(iv_total_cost) as iv_total_cost,
@@ -103,7 +151,7 @@
           </if>
         </where>
     GROUP BY goods_id,goods_color) AS iv
-  </select>
+  </select>-->
   <!--<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.icenotu.entity.Inventory">
     <result column="bod_imei_list" jdbcType="LONGVARCHAR" property="bodImeiList" />
   </resultMap>

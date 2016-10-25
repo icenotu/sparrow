@@ -32,7 +32,7 @@ public class AccountAction extends BaseAction {
             return "redirect:/base/goURL/index/index.form";
         } else {
             request.setAttribute("message","用户名或密码错误，请重新输入！");
-            return "/jsp/login.jsp";
+            return "/index.jsp";
         }
 
     }

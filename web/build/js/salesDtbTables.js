@@ -45,6 +45,7 @@ $(function() {
 
         ],
         responsive: true,
+        autoWidth:true,
         searching: false,//屏蔽datatales的查询框
         "lengthMenu": [
             [5,10, 20, 50, 100, 150, -1],
@@ -100,7 +101,8 @@ $(function() {
         ],
         "columnDefs": [
             { "orderable": false, "targets": "_all" },
-            { "visible": false, "targets": [1] }
+            { "visible": false, "targets": [1] },
+            {"className": "none","targets":[6,7,8]}
         ],
         'drawCallback': function( settings ) {
             $('#checkAll').checked = false;//取消全选状态

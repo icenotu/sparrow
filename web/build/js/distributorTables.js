@@ -5,7 +5,7 @@ var table;
 $(function() {
 
     table = $('#datatable-scroller').DataTable({
-        dom: "l<'#editButtons'<'pull-right'B>>rtip",
+        dom: "l<'pull-right'B>rtip",
         "pagingType": "full_numbers",//设置分页控件的模式
         buttons: [
             {

@@ -200,7 +200,7 @@
               </div><!-- /.modal-content -->
               </div>
         </div>
-          <!--供应商选择页面开始-->
+          <!--经销商选择页面开始-->
           <div class="modal fade" id="myModal-supplier-info" tabindex="-1" role="dialog"
                aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">

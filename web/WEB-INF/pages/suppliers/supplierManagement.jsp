@@ -47,7 +47,11 @@
                   <p class="text-muted font-13 m-b-30">
                     下表显示了公司供应商的信息
                   </p>
-
+                  <div class="pull-left">
+                    <button   class="btn btn-danger btn-sm" id="deleteAll">批量删除</button>
+                    <button   class="btn btn-success btn-sm "  id="addBtn">新 增</button>
+                    <button   class="btn btn-warning btn-sm "  id="editBtn">修 改</button>
+                  </div>
                   <div class="btn pull-right">
                     <input type="text" id="level1">
                     <input type="button" id="level2" value="查询">

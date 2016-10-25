@@ -50,6 +50,42 @@
     </foreach>
   </insert>
   <select id="generateReport" parameterType="PageData" resultMap="SalesCostReportResultMap">
+      SELECT T1.goods_id,T5.goods_name,T5.sh_id,T5.goods_color,T5.goods_unit,T5.goods_type,
+      T3.scd_amount,
+      T4.open_iv_amount, T4.open_total_cost,
+      T2.bod_amount ,T2.bod_total_cost,
+      T1.iv_amount
+      FROM
+      (SELECT inventory.goods_id, SUM(inventory.iv_amount) AS iv_amount FROM inventory WHERE bo_date &lt;= #{endDate} GROUP BY inventory.goods_id) T1
+      left join
+      (SELECT  DISTINCT(goods_id),goods_name,sh_id,goods_color,goods_unit,goods_type FROM inventory) T5
+      ON T1.goods_id = T5.goods_id
+      LEFT JOIN
+      (SELECT inventory.goods_id,SUM(inventory.iv_amount) AS bod_amount, SUM(inventory.iv_total_cost) AS bod_total_cost  FROM inventory WHERE iv_type="bo" AND bo_date BETWEEN #{startDate} AND #{endDate} GROUP BY inventory.goods_id) T2
+      ON T1.goods_id=T2.goods_id
+      LEFT JOIN
+      (SELECT inventory.goods_id,SUM(inventory.iv_amount) AS scd_amount FROM inventory WHERE iv_type="sc" AND bo_date BETWEEN #{startDate} AND #{endDate} GROUP BY inventory.goods_id) T3
+      ON T1.goods_id=T3.goods_id
+      LEFT JOIN
+      (SELECT sales_cost_report.goods_id,SUM(sales_cost_report.iv_amount) AS open_iv_amount, SUM(sales_cost_report.iv_total_cost) AS open_total_cost FROM sales_cost_report WHERE scr_date BETWEEN #{lastMonthStartDate} AND #{lastMonthEndDate} GROUP BY sales_cost_report.goods_id) T4
+      ON T1.goods_id=T4.goods_id
+  </select>
+
+  <select id="generateReportCount" parameterType="PageData" resultType="Integer">
+    SELECT count(T1.goods_id)
+    FROM
+    (SELECT inventory.goods_id, SUM(inventory.iv_amount) as iv_amount FROM inventory where bo_date &lt;= #{endDate} GROUP BY inventory.goods_id) T1
+    LEFT JOIN
+    (SELECT inventory.goods_id,SUM(inventory.iv_amount) as bod_amount, SUM(inventory.iv_total_cost) as bod_total_cost  FROM inventory where iv_type="bo" and bo_date between #{startDate} and #{endDate} GROUP BY inventory.goods_id) T2
+    ON T1.goods_id=T2.goods_id
+    LEFT JOIN
+    (SELECT inventory.goods_id,SUM(inventory.iv_amount) as scd_amount FROM inventory where iv_type="sc" and bo_date between #{startDate} and #{endDate} GROUP BY inventory.goods_id) T3
+    ON T1.goods_id=T3.goods_id
+    LEFT JOIN
+    (SELECT sales_cost_report.goods_id,SUM(sales_cost_report.iv_amount) as open_iv_amount, SUM(sales_cost_report.iv_total_cost) as open_total_cost FROM sales_cost_report where scr_date between #{lastMonthStartDate} and #{lastMonthEndDate} GROUP BY sales_cost_report.goods_id) T4
+    ON T1.goods_id=T4.goods_id;
+  </select>
+  <!--<select id="generateReport" parameterType="PageData" resultMap="SalesCostReportResultMap">
   SELECT T1.sh_id,T1.goods_id, T1.goods_name, T1.goods_color,T1.goods_type,T1.goods_unit,
   T3.scd_amount,
   T4.open_iv_amount, T4.open_total_cost,
@@ -58,13 +94,13 @@
   FROM
   (SELECT inventory.sh_id, inventory.goods_id, goods_name, goods_color, goods_type, goods_unit, SUM(inventory.iv_amount) as iv_amount FROM inventory  where bo_date &lt;= #{endDate} GROUP BY inventory.goods_id) T1
   LEFT JOIN
-  (SELECT inventory.goods_id,SUM(inventory.iv_amount) as bod_amount, SUM(inventory.iv_total_cost) as bod_total_cost  FROM inventory where iv_type="bo" and bo_date between #{startDate} and #{endDate} GROUP BY inventory.goods_id) T2
+  (SELECT inventory.goods_id,SUM(inventory.iv_amount) as bod_amount, SUM(inventory.iv_total_cost) as bod_total_cost  FROM inventory where iv_type="bo" and bo_date between #{startDate} AND #{endDate} GROUP BY inventory.goods_id) T2
   ON T1.goods_id=T2.goods_id
   LEFT JOIN
   (SELECT inventory.goods_id,SUM(inventory.iv_amount) as scd_amount FROM inventory where iv_type="sc" and bo_date between #{startDate} and #{endDate} GROUP BY inventory.goods_id) T3
   ON T1.goods_id=T3.goods_id
   LEFT JOIN
-  (SELECT sales_cost_report.goods_id,SUM(sales_cost_report.iv_amount) as open_iv_amount, SUM(sales_cost_report.iv_total_cost) as open_total_cost FROM sales_cost_report where scr_date between #{lastMonthStartDate} and #{lastMonthEndDate} GROUP BY sales_cost_report.goods_id) T4
+  (SELECT sales_cost_report.goods_id,SUM(sales_cost_report.iv_amount) as open_iv_amount, SUM(sales_cost_report.iv_total_cost) as open_total_cost FROM sales_cost_report where scr_date between #{lastMonthStartDate} AND #{lastMonthEndDate} GROUP BY sales_cost_report.goods_id) T4
   ON T1.goods_id=T4.goods_id
 
 </select>
@@ -82,7 +118,7 @@
     LEFT JOIN
     (SELECT sales_cost_report.goods_id,SUM(sales_cost_report.iv_amount) as open_iv_amount, SUM(sales_cost_report.iv_total_cost) as open_total_cost FROM sales_cost_report where scr_date between #{lastMonthStartDate} and #{lastMonthEndDate} GROUP BY sales_cost_report.goods_id) T4
     ON T1.goods_id=T4.goods_id;
-  </select>
+  </select>-->
   <!--<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
