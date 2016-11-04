@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="driverClass" value="com.mysql.jdbc.Driver" />
     <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/scm?useUnicode=true&amp;characterEncoding=UTF-8" />
     <property name="user" value="root" />
-    <property name="password" value="root" />
+    <property name="password" value="Rejoice$0926$iBT" />
 </bean>
 <!-- 配置session工厂 -->
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

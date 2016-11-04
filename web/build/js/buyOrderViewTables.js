@@ -160,7 +160,7 @@ $(function() {
         var boId= $(this).attr("name");
             $("#orderId").val(boId);
             info.ajax.reload();//表格初始化是获取不到boId，需要重新加载才能获取得到
-        $("#myModal-check-info").modal('show').children(".modal-dialog").css({
+        $("#myModal-check-info").modal('show')/*.children(".modal-dialog").css({
             // width:"75%",
             'margin-right': 5,
             // 'width':1200
@@ -168,7 +168,7 @@ $(function() {
                 return ($(this).parents(".right_col").width());
             }
             
-        })
+        })*/
     });
         info = $('#orderInfo').DataTable({
             dom: "l<'pull-right'B>rtip",
@@ -258,7 +258,8 @@ $(function() {
             "columnDefs": [
                 { "orderable": false, "targets": "_all" },
                 { "defaultContent":"", "targets":"_all"},
-                {"render":$.fn.dataTable.render.number(',', '.', 2),"targets":[4,5,6]}
+                {"render":$.fn.dataTable.render.number(',', '.', 2),"targets":[4,5,6]},
+                {"className": "none","targets":[3,4,5,6,7]}
             ],
     
         });
